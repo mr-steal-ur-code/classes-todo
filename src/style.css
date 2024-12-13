@@ -93,6 +93,18 @@ button:active {
   width: 90%;
 }
 
+.task-item {
+  border: 1px solid #656565;
+  border-radius: .5rem;
+  margin: .5rem auto;
+  padding: .5rem;
+}
+
+.task-item h4,
+h5 {
+  padding: 0;
+}
+
 @media (prefers-color-scheme: light) {
   :root {
     color: #213547;
