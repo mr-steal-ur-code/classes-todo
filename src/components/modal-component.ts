@@ -23,6 +23,8 @@ class ModalComponent extends HTMLElement {
         border-radius: 6px;
         transform: translateY(-200%);
         transition: transform .6s ease;
+        max-height: 90%;
+        overflow-y: auto;
       }
       .container.open {
         transform: translateY(0);
