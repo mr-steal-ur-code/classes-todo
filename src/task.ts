@@ -1,13 +1,24 @@
+import MultiTaskModel from "./models/MultiTaskModel";
 import TaskModel from "./models/TaskModel";
 
-function createTask(type: "task" | "multiTask", task: { title: string, description: string, dueDate: Date }) {
-  const newTask = new TaskModel(task?.title, task?.description, task?.dueDate);
+function createTask(type: "task" | "multiTask", task: { title: string, description: string, dueDate: Date }, list?: string[]) {
+  let newTask;
+  if (type === "task") {
+    newTask = new TaskModel(task?.title, task?.description, task?.dueDate);
+  } else if (type === "multiTask" && list?.length) {
+    newTask = new MultiTaskModel(task?.title, task?.description, task?.dueDate, list)
+  } else return;
+  const listHtml =
+    newTask instanceof MultiTaskModel && newTask.list?.length
+      ? `<ul>${newTask.list.map(item => `<li>${item}</li>`).join("")}</ul>`
+      : "";
   tasks?.push(newTask);
-  const newTaskHtml = `<li>
+  const newTaskHtml = `<li style="margin:.5rem auto">
   <input type="checkbox" />
   <span>${newTask?.title}</span>
   <h5>${newTask?.description}</h5>
   <h5>${newTask?.dueDate}</h5>
+  ${listHtml}
 </li>`;
   const tasksList = document.getElementById("tasks-ul")!;
   tasksList.innerHTML += newTaskHtml;
@@ -35,8 +46,12 @@ document.getElementById("new-task-form")?.addEventListener("submit", (e) => {
   const title = form.elements["title"]?.value;
   const description = form.elements["description"]?.value;
   const dueDate = new Date(form.elements["dueDate"]?.value);
+  const listValue = form.elements["list"]?.value;
+  const list = listValue?.split(",");
+  console.log("list:", list);
+
 
   const formData: { title: string, description: string, dueDate: Date } = { title, description, dueDate }
-  createTask(type, formData);
+  createTask(type, formData, list);
   taskModal?.hide()
 });

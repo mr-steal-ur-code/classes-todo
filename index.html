@@ -23,11 +23,11 @@
             <div style="display:flex;justify-content: center;">
               <label>
                 Task
-                <input type="radio" name="type" id="task" />
+                <input checked type="radio" name="type" id="task" value="task" />
               </label>
               <label>
                 Multi-Task
-                <input type="radio" name="type" id="multiTask" />
+                <input type="radio" name="type" id="multiTask" value="multiTask" />
               </label>
             </div>
 
@@ -44,6 +44,7 @@
             Due
             <input type="date" name="dueDate" />
           </label>
+          <div id="multiTaskList"></div>
           <button id="save-task-btn">save</button>
         </form>
       </div>
@@ -60,6 +61,25 @@
   <script src="/src/components/modal-component.ts"></script>
   <script type="module" src="/src/main.ts"></script>
   <script type="module" src="/src/task.ts"></script>
+  <script>
+    const multiTaskRadio = document.getElementById('multiTask');
+    const multiTaskFieldEl = document.getElementById('multiTaskList');
+    multiTaskRadio.addEventListener('change', () => {
+      if (multiTaskRadio.checked) {
+        multiTaskFieldEl.innerHTML =
+          ` <label style="display:block" for="list">
+            Multi-Task List <br/> Separate with a comma
+            <textarea rows="4" style="width:100%" name="list"></textarea>
+          </label>`
+      }
+    });
+    const taskRadio = document.getElementById('task');
+    taskRadio.addEventListener('change', () => {
+      if (taskRadio.checked) {
+        multiTaskFieldEl.innerHTML = '';
+      }
+    });
+  </script>
 </body>
 
 </html>
